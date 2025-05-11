@@ -1,0 +1,38 @@
+services:
+  lms:
+    container_name: lms
+    image: lmscommunity/logitechmediaserver:stable
+    volumes:
+      - ${CONFIG}:/config:rw
+      - ${PLAYLIST}:/playlist:rw
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      # - 9000:9000/tcp
+      - 9090:9090/tcp
+      - 3483:3483/tcp
+      - 3483:3483/udp
+    networks:
+      proxy:
+        # ipv4_address: 
+      macvlan-system:
+        # ipv4_address: 
+    dns:
+      - ${DNS_IP1}
+      # - ${DNS_IP2}
+    dns_search: ${DOMAIN}
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.lms.rule=Host(`lms.mccullonas.co.uk`)"
+      - "traefik.http.services.lms.loadbalancer.server.port=9000"
+      - "traefik.http.routers.lms.entrypoints=websecure"
+      - "traefik.http.routers.lms.tls.certresolver=le_dns"
+
+networks:
+  macvlan-system:
+    external: true
+  proxy:
+    external: true
+

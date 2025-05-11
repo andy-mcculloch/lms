@@ -1,0 +1,4 @@
+config/
+playlist/
+*.bak
+.env
