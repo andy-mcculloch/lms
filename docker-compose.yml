@@ -24,7 +24,7 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=web"
+      - "traefik.docker.network=proxy"
       - "traefik.http.routers.lms.rule=Host(`lms.mccullonas.co.uk`)"
       - "traefik.http.services.lms.loadbalancer.server.port=9000"
       - "traefik.http.routers.lms.entrypoints=websecure"
